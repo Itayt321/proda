@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="amalbin.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="icon" type="image/x-icon" href="amavrik.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+
+    <style>
+        .mySlides {
+            display: none;
+        }
+    </style>
+    <title>Amavrik</title>
+
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            circle = 0
+            $(".container-center3-burger").hide();
+            $(document).on('click', ".fa-plus-circle", func);
+
+
+            $(document).on('click', ".formButton_mini", func2);
+
+            $(document).on('click', ".formButton", func3);
+
+
+            const myTimeout = setTimeout(myStopFunction, 5000);
+            function myStopFunction() {
+                Swal.fire({
+                    width: 600,
+                    height: 'fit-content',
+                    color: '#716add',
+                    showCloseButton: true,
+                    showConfirmButton: false,
+                    showClass: {
+                        popup: 'animate__animated animate__fadeInDown'
+                    },
+                    hideClass: {
+                        popup: 'animate__animated animate__fadeOutUp'
+                    },
+                    html: '<div class="form" id="form"><div class="video_mini"><video autoplay muted loop id="myVideo_mini"><source src="pexels-tima-miroshnichenko-6195516.mp4" type="video/mp4"></video></div><div class="formHeader_mini"><div class="formHeader1"><h3>השאירו פרטים והמשרד יחזור אליכם בהקדם</h3></div><div class="formHeader2"><p class="formHeader_p"><a href="tel:0549211294">054-9211294<i class="fa fa-phone fa-lg fa-rotate-270"></i></a></p></div><div class="formHeader3_mini"><div><input type="text" class="formHeader3_input" id="fullNameMini" placeholder="שם מלא"></div><div><input type="text" class="formHeader3_input" id="phoneMini" placeholder="טלפון"></div><div><input type="text" class="formHeader3_input" id="mailMini" placeholder="אימייל"></div></div><div><button class="formButton_mini">שלח</button></div></div></div>'
+                    // background: '#fff url(/images/trees.png)',
+                })
+                clearTimeout(myTimeout);
+            }
+        });
+
+        function func() {
+            if (circle === 0) {
+                $(".container-center3-burger").show(500);
+                circle = 1;
+            } else {
+                $(".container-center3-burger").hide(500);
+                circle = 0;
+            }
+        }
+
+        function func2() {
+            phoneMini = $("#phoneMini").val();
+            mailMini = $("#mailMini").val();
+            fullNameMini = $("#fullNameMini").val();
+            sendemail(phoneMini, mailMini, fullNameMini)
+        }
+
+        function func3() {
+            phone = $("#phone").val();
+            mail = $("#mail").val();
+            fullName = $("#fullName").val();
+            sendemail(phone, mail, fullName)
+        }
+
+        function sendemail(clientPhone, clientMail, clientFullname) {
+            Email.send({
+                Host: "smtp.elasticemail.com",
+                Username: "caravanimsgi@gmail.com",
+                Password: "113FDC6F2A41FBE0A0037FC1944D69DCCCEC",
+                To: "orel82064@gmail.com",
+                From: "caravanimsgi@gmail.com",
+                Subject: "הזמנה חדשה",
+                Body: "שם: " + clientFullname + '<br>' + "טלפון: " + clientPhone + '<br>' + "מייל: " + clientMail,
+            }).then((result) => {
+                $("#phone").val("");
+                $("#mail").val("");
+                $("#fullName").val("");
+                $("#phoneMini").val("");
+                $("#mailMini").val("");
+                $("#fullNameMini").val("");
+
+                let timerInterval;
+                Swal.fire({
+                    icon: 'success',
+                    title: 'הפרטים נשלחו בהצלחה',
+                    html: 'המשרד יחזור אליכם בהקדם',
+                    showConfirmButton: false,
+                    timer: 3500,
+                    timerProgressBar: true,
+                    didOpen: () => {
+
+                    },
+                    willClose: () => {
+
+                    }
+                }).then((result) => {
+                    /* Read more about handling dismissals below */
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        console.log('I was closed by the timer')
+                    }
+                })
+
+                // const Excel = require('exceljs');
+
+                // const wb = new Excel.Workbook();
+                // const ws = wb.addWorksheet('My Sheet');
+
+                // workbook.xlsx.readFile('file.xlsx')//Change file name here or give file path
+                //     .then(function () {
+                //         var worksheet = workbook.getWorksheet('sheet');
+                //         var i = 1;
+                //         worksheet.eachRow({ includeEmpty: false }, function (row, rowNumber) {
+                //             r = worksheet.getRow(i).values;
+                //             r1 = r[2];// Indexing a column
+                //             console.log(r1);
+                //             i++;
+                //         });
+                //         worksheet.getCell('B3').value = "abc";//Change the cell number here
+                //         return workbook.xlsx.writeFile('file.xlsx')//Change file name here or give     file path
+                //     });
+            }
+            );
+            return false;
+        }
+
+    </script>
+
+
+</head>
+
+<body>
+
+    <div id="container">
+        <div id="container-Top">
+            <div id="container-Top-days">ראשון-חמישי<i class="fa fa-clock-o fa-lg"></i></div>
+            <div id="container-Top-mail"><a href="mailto: orel82064@gmail.com">orel82064@gmail.com<i
+                        class="fa fa-envelope-o fa-lg"></i></a></div>
+            <div id="container-Top-phone"><a href="tel:0549211294">0549211294<i
+                        class="fa fa-phone fa-lg fa-rotate-270"></i></a></div>
+        </div>
+
+        <div class="container-center">
+            <img id="amalbin-img" src="Amalbin.jpg" alt="AmavrikLogo">
+        </div>
+
+        <div class="container-center2">
+            <ul>
+                <a href="#container">
+                    <div>
+                        <li>בית</li>
+                    </div>
+                </a>
+                <!-- <div>
+                    <li>נקיון משרדים ומוסדות</li>
+                </div>
+                <div>
+                    <li>לקוחות מספרים</li>
+                </div> -->
+                <a href="#about">
+                    <div>
+                        <li>אודות</li>
+                    </div>
+                </a>
+                <a href="#boxes">
+                    <div>
+                        <li>תחומי פעילות</li>
+                    </div>
+                </a>
+                <a href="#form">
+                    <div>
+                        <li>צור קשר</li>
+                        </li>
+                    </div>
+                </a>
+            </ul>
+        </div>
+
+        <div class="container-center3">
+            <li class="fa fa-plus-circle fa-3x"></li>
+
+            <div class="container-center3-burger">
+                <a href="#container">
+                    <div class="container-center3-burger-option">בית</div>
+                </a>
+                <a href="#about">
+                    <div class="container-center3-burger-option">אודות</div>
+                </a>
+                <!-- <div class="container-center3-burger-option">נקיון משרדים ומוסדות</div>
+                <div class="container-center3-burger-option">לקוחות מספרים</div> -->
+                <a href="#boxes">
+                    <div class="container-center3-burger-option">תחומי פעילות</div>
+                </a>
+                <a href="#form">
+                    <div class="container-center3-burger-option">צור קשר</div>
+                </a>
+            </div>
+        </div>
+        <!-- Slideshow container -->
+
+        <div class="w3-content w3-section">
+            <img class="mySlides w3-left" src="img1.jpg">
+            <img class="mySlides w3-left" src="img2.jpg">
+            <img class="mySlides w3-left" src="img3.jpeg">
+            <img class="mySlides w3-left" src="img4.jpeg">
+            <div class="cleaningtext">
+                <p>
+                    חברת הנקיון המומלצת והמשתלמת ביותר
+                </p>
+                <p>
+                    !מאות לקוחות מרוצים
+                </p>
+                <div class="cleaningPhone">
+                    <p class="cleaningPhone p">
+                        <a href="tel:0549211294">054-9211294<i class="fa fa-phone fa-lg fa-rotate-270"></i></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="centerText">
+            <h1 class="placeTextH1" id="about">
+                חברת ניקיון בנתניה
+            </h1>
+            <div class="div_placeText">
+                <p class="placeTextP">
+                    אנו מתמחים באיזור נתניה והסביבה. תחילה אנו יושבים יחד עם הלקוח ומבינים את הצרכים שלו על מנת לספק את
+                    השירות הטוב ביותר עבורו.
+                    אנו מתמחים בנקיון כל סוגי המוסדות והמשרדים החל ממשרדי רואי חשבון, עורכי דין ועד לבתי ספר, בתים
+                    פרטיים, מתנסים ומוסדות ממשלתיים.
+
+                </p>
+                <p class="placeTextP">
+
+                    אנו מציעים שירותי נקיון שמשות, פוליש, הסרת כתמים מפרקטים, ניקיון שולחנות, נקיון ספות ושאיבת שטחים.
+                </p>
+                <p class="placeTextP">
+                    אנו מכשירים עובדים על כלי הנקיון החדישיים והמתקדמים ביותר תוך מתן דגש על שימוש חומרים מתאימים לשמירה
+                    מיטבית על משטח העבודה.
+                </p>
+                <p class="placeTextP">
+                    החברה מיישמת עובדים למשרד על פי שביעות רצון הלקוח.
+                </p>
+            </div>
+        </div>
+
+        <div class="row1-container" id="boxes">
+            <div class="box box-down cyan">
+                <h2>משרדים</h2>
+                <p>משרדי רואי חשבון ועורכי דין</p>
+                <script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
+                <lord-icon class="lord-icon" src="https://cdn.lordicon.com/ycjlxmbw.json" trigger="hover"
+                    style="width:90px;height:90px;position: relative;bottom: 10px;">
+                </lord-icon>
+            </div>
+
+            <div class="box red">
+                <h2>מוסדות</h2>
+                <p>בתי ספר, מתנסים וגני ילדים</p>
+                <script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
+                <lord-icon class="lord-icon" src="https://cdn.lordicon.com/ajyyzcwv.json" trigger="hover"
+                    colors="primary:#121331,secondary:#ea5353" style="width:90px;height:90px;">
+                </lord-icon>
+            </div>
+
+            <div class="box box-down blue">
+                <h2>בתים פרטיים</h2>
+                <p>נקיון ספות-שמשות-שולחנות, פוליש, הסרת כתמים מפרקטים ושאיבת שטחים</p>
+                <script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
+                <lord-icon class="lord-icon" src="https://cdn.lordicon.com/ixlgmsii.json" trigger="hover"
+                    style="width:87px;height:87px;position: relative;bottom: 27px;"
+                    colors="primary:#121331,secondary:#58a1f2">
+                </lord-icon>
+            </div>
+        </div>
+        <div class="row2-container">
+            <div class="box orange">
+                <h2>ניקיון לאחר שיפוץ</h2>
+                <p>נקיון מקצועי ויסודי לאחר שיפוץ</p>
+                <script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
+                <lord-icon class="lord-icon" src="https://cdn.lordicon.com/aaodnvls.json" trigger="hover"
+                    colors="primary:#121331,secondary:#fcaf4a"
+                    style="width:90px;height:90px;position: relative;bottom: 10px;">
+                </lord-icon>
+            </div>
+        </div>
+        <div class="form" id="form">
+            <div class="video">
+                <video autoplay muted loop id="myVideo">
+                    <source src="pexels-tima-miroshnichenko-6195516.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="formHeader">
+                <div class="formHeader1">
+                    <h3>השאירו פרטים והמשרד יחזור אליכם בהקדם</h3>
+                </div>
+                <div class="formHeader2">
+                    <p class="formHeader_p">
+                        <a href="tel:0549211294">054-9211294<i class="fa fa-phone fa-lg fa-rotate-270"></i></a>
+                    </p>
+                </div>
+                <div class="formHeader3">
+                    <div><input type="text" id="fullName" class="formHeader3_input" placeholder="שם מלא"></div>
+                    <div><input type="text" id="phone" class="formHeader3_input" placeholder="טלפון"></div>
+                    <div><input type="text" id="mail" class="formHeader3_input" placeholder="אימייל"></div>
+                </div>
+                <div><button class="formButton">שלח</button></div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="details">
+                <p>ראשון-חמישי<i class="fa fa-clock-o fa-lg"></i></p>
+                <p id="container-Footer-mail"><a href="mailto: orel82064@gmail.com">orel82064@gmail.com<i
+                            class="fa fa-envelope-o fa-lg"></i></a></p>
+                <p id="container-Footer-phone"><a href="tel:0549211294">054-9211294<i
+                            class="fa fa-phone fa-lg fa-rotate-270"></i></a></p>
+            </div>
+            <p class="line"></p>
+            <div class="services">
+                <p>משרדים</p>
+                <p>מוסדות</p>
+                <p>בתים פרטיים</p>
+                <p>ניקיון לאחר שיפוץ</p>
+            </div>
+            <p class="line"></p>
+            <div class="links">
+                <p>
+                    <a href="#container">בית</a>
+                </p>
+                <!-- <a href="">נקיון משרדים ומוסדות</a>
+                <a href="">לקוחות מספרים</a> -->
+                <p>
+                    <a href="#about">אודות</a>
+                </p>
+                <p>
+                    <a href="#boxes">תחומי פעילות</a>
+                </p>
+                <p>
+                    <a href="#form">צור קשר</a>
+                </p>
+            </div>
+        </div>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <a href="https://api.whatsapp.com/send?phone=0549211294&text=שלום, אני מעוניין לקבל הצעת מחיר"
+            class="float" target="_blank">
+            <i class="fa fa-whatsapp my-float"></i>
+        </a>
+        <div id="credit">
+            <a href=" https://itayt321.github.io/itayHamamy/" target="_blank">איתי הממי - בניית אתרים בחינם</a>
+        </div>
+    </div>
+    <script>
+        var myIndex = 0;
+        carousel();
+
+        function carousel() {
+            var i;
+            var x = document.getElementsByClassName("mySlides");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            myIndex++;
+            if (myIndex > x.length) { myIndex = 1 }
+            x[myIndex - 1].style.display = "block";
+            setTimeout(carousel, 4000);
+        }
+
+    </script>
+</body>
+
+</html>
